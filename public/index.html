@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دفتر پروانه‌های ساختمانی شیراز</title>
+<style>
+/* ───────────────────────────────────────────────────────────────────────
+   پالت از کاشی‌کاری شیراز گرفته شده: لاجورد، فیروزه، اُخرا روی زمینه گچ.
+   دلیل انتخاب: موضوع این صفحه زمین و بناست، و رنگ‌های بنا در این شهر
+   همین‌هاست. زمینه کرم/آجری عمداً کنار گذاشته شد.
+   ─────────────────────────────────────────────────────────────────── */
+:root{
+  --lapis:#1B3A5C; --lapis-deep:#10243B; --firooze:#2E9E9B; --ochre:#B5822A;
+  --plaster:#F3F1EC; --paper:#FAF9F6; --line:#D8D3C7; --ink:#16202B;
+  --muted:#6B7683; --danger:#A33B2E; --ok:#2E7D5B;
+  --step:clamp(.9rem,.55rem + .5vw,1rem);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--plaster); color:var(--ink);
+  font-family:"Vazirmatn","IRANSansX","IRANSans","Segoe UI",Tahoma,sans-serif;
+  font-size:var(--step); line-height:1.75;
+}
+a{color:var(--lapis)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+/* سربرگ */
+header{background:var(--lapis-deep);color:#EAF1F5;padding:28px 0 24px}
+header h1{margin:0;font-size:1.5rem;font-weight:700;letter-spacing:-.01em}
+header p{margin:6px 0 0;color:#9FB6C6;font-size:.9rem;max-width:62ch}
+.stat-row{display:flex;flex-wrap:wrap;gap:28px;margin-top:20px}
+.stat b{display:block;font-size:1.45rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+.stat span{font-size:.8rem;color:#8FA8BA}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;vertical-align:middle;margin-left:6px}
+.dot.up{background:var(--firooze)} .dot.down{background:var(--danger)}
+
+/* بخش‌ها */
+section{padding:34px 0;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+h2{font-size:1.05rem;margin:0 0 4px;font-weight:700}
+.hint{color:var(--muted);font-size:.85rem;margin:0 0 20px;max-width:70ch}
+
+/* ── عنصر امضای صفحه: شبکه ظرفیت تراکم ──
+   هر بلوک یک سهم از سقف انتشار منطقه است. این نمودار نیست، نقشه است:
+   موضوع خودش مربع‌های متراژ است، پس همان‌طور نشان داده می‌شود. */
+.grid-regions{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:14px}
+.region{background:var(--paper);border:1px solid var(--line);padding:14px 16px 16px}
+.region h3{margin:0;font-size:.92rem;font-weight:700}
+.region .sub{color:var(--muted);font-size:.76rem;margin:2px 0 12px}
+.use{margin-bottom:9px}
+.use .lbl{display:flex;justify-content:space-between;font-size:.76rem;color:var(--muted);margin-bottom:4px}
+.use .lbl b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.blocks{display:flex;gap:2px}
+.blk{flex:1;height:12px;background:#E4E0D6}
+.blk.f{background:var(--lapis)}
+.blk.p{background:var(--firooze)}
+.legend{display:flex;gap:18px;margin-top:14px;font-size:.78rem;color:var(--muted);align-items:center}
+.legend i{display:inline-block;width:16px;height:10px;margin-left:5px;vertical-align:middle}
+
+/* کنسول */
+.console{display:grid;grid-template-columns:300px 1fr;gap:20px}
+@media(max-width:820px){.console{grid-template-columns:1fr}}
+.panel{background:var(--paper);border:1px solid var(--line);padding:16px}
+label{display:block;font-size:.78rem;color:var(--muted);margin:10px 0 4px}
+select,input,textarea,button{
+  font-family:inherit;font-size:.85rem;width:100%;padding:8px 10px;
+  border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:0
+}
+textarea{min-height:70px;resize:vertical;line-height:1.6}
+button{
+  background:var(--lapis);color:#fff;border-color:var(--lapis);
+  cursor:pointer;margin-top:14px;font-weight:600;padding:10px
+}
+button:hover{background:var(--lapis-deep)}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--firooze);outline-offset:1px
+}
+button.ghost{background:transparent;color:var(--lapis);border-color:var(--line);margin-top:8px}
+pre{
+  background:var(--lapis-deep);color:#DCE8F0;padding:14px;margin:0;overflow:auto;
+  max-height:420px;font-size:.78rem;line-height:1.65;direction:ltr;text-align:left;
+  font-family:ui-monospace,"Cascadia Code",Consolas,monospace
+}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{
+  font-size:.74rem;border:1px solid var(--line);background:#fff;
+  padding:3px 8px;cursor:pointer;color:var(--lapis)
+}
+.tag:hover{border-color:var(--firooze);color:var(--firooze)}
+
+/* سازمان‌ها */
+.orgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:12px}
+.org{background:var(--paper);border:1px solid var(--line);border-right:3px solid var(--lapis);padding:12px 14px}
+.org.commission{border-right-color:var(--ochre)}
+.org.citizen{border-right-color:var(--firooze)}
+.org b{display:block;font-size:.88rem}
+.org span{font-size:.76rem;color:var(--muted)}
+.org code{font-size:.72rem;color:var(--lapis);background:#EDF0F2;padding:1px 5px}
+
+/* گردش کار */
+.flow{display:flex;flex-wrap:wrap;gap:0;align-items:stretch;margin-top:6px}
+.st{
+  background:var(--paper);border:1px solid var(--line);padding:9px 13px;
+  font-size:.78rem;position:relative;margin:0 0 8px 8px
+}
+.st b{display:block;font-size:.82rem;font-weight:600}
+.st span{color:var(--muted);font-size:.72rem}
+.st.term{background:#EFE9DC;border-color:#DCD0B4}
+.st.bad{background:#F6E9E7;border-color:#E3C9C4}
+footer{padding:26px 0 40px;color:var(--muted);font-size:.8rem}
+.err{color:var(--danger);font-size:.8rem;margin-top:8px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>دفتر پروانه‌های ساختمانی شهرداری شیراز</h1>
+    <p>هر متر مربع پروانه یک توکن است. صدور پروانه، وصول عوارض و مصرف تراکم در یک تراکنش اتمی روی دفتر مشترک ثبت می‌شوند.</p>
+    <div class="stat-row" id="stats">
+      <div class="stat"><b id="s-net">…</b><span>وضعیت شبکه</span></div>
+      <div class="stat"><b id="s-org">…</b><span>سازمان عضو</span></div>
+      <div class="stat"><b id="s-ch">…</b><span>کانال</span></div>
+      <div class="stat"><b id="s-tls">…</b><span>TLS</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>ظرفیت تراکم مناطق</h2>
+    <p class="hint">سقف انتشار توکن هر منطقه از ظرفیت زیرساخت تعیین می‌شود، نه از بودجه سال. بخش پررنگ، متراژی است که تا امروز به پروانه تبدیل شده.</p>
+    <div class="grid-regions" id="regions"><p class="hint">در حال خواندن از دفتر…</p></div>
+    <div class="legend">
+      <span><i style="background:var(--lapis)"></i>مصرف‌شده</span>
+      <span><i style="background:var(--firooze)"></i>در رهن پرونده باز</span>
+      <span><i style="background:#E4E0D6"></i>ظرفیت باقی‌مانده</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>کنسول پرس‌وجو</h2>
+    <p class="hint">هر فراخوانی با هویت سازمان انتخابی امضا می‌شود. اگر آن سازمان نقش لازم را نداشته باشد، قرارداد رد می‌کند — همان کنترلی که در چارت سازمانی وجود دارد.</p>
+    <div class="console">
+      <div class="panel">
+        <label for="org">سازمان امضاکننده</label>
+        <select id="org"></select>
+        <label for="ch">کانال</label>
+        <select id="ch"><option value="permitchannel">permitchannel</option><option value="auditchannel">auditchannel</option></select>
+        <label for="cc">قرارداد</label>
+        <select id="cc"></select>
+        <label for="fn">تابع</label>
+        <input id="fn" value="ListRegions">
+        <label for="args">آرگومان‌ها (JSON آرایه)</label>
+        <textarea id="args">[]</textarea>
+        <button id="run">اجرای پرس‌وجو</button>
+        <button id="runw" class="ghost">ثبت تراکنش (نوشتن)</button>
+        <div class="err" id="err"></div>
+        <div class="tags" id="shortcuts"></div>
+      </div>
+      <div class="panel" style="padding:0"><pre id="out">پاسخی هنوز دریافت نشده.</pre></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>سازمان‌های شبکه</h2>
+    <p class="hint">هشت واحد چارت سازمانی، هر کدام یک سازمان فابریک با کلید و گواهی مستقل. نقش هر سازمان تعیین می‌کند چه گذاری از پرونده را می‌تواند امضا کند.</p>
+    <div class="orgs" id="orgs"></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>گردش پرونده</h2>
+    <p class="hint">این ترتیب در قرارداد قفل شده است. پرونده نمی‌تواند از مرحله‌ای بپرد؛ تلاش برای آن در سطح تراکنش رد می‌شود، نه در سطح رابط کاربری.</p>
+    <div class="flow" id="flow"></div>
+  </div>
+</section>
+
+<footer><div class="wrap">شبکه هایپرلجر فابریک — دفتر توزیع‌شده پروانه‌های ساختمانی</div></footer>
+
+<script>
+const $ = s => document.querySelector(s);
+const CONTRACTS = ['Regulation','Parcel','Permit','Fee','SqmToken','Treasury','Violation','TdrMarket','Inquiry','Audit'];
+
+const ORG_INFO = {
+  1:['معاونت شهرسازی و معماری','REGULATOR','regulator'],
+  2:['مناطق یازده‌گانه شهرداری','DISTRICT','district'],
+  3:['سازمان نظام مهندسی فارس','ENGINEER','engineer'],
+  4:['مالکان و دفاتر پیشخوان','CITIZEN','citizen'],
+  5:['معاونت مالی و بانک عامل','FINANCE','finance'],
+  6:['کمیسیون ماده ۵ و ماده ۱۰۰','COMMISSION','commission'],
+  7:['دستگاه‌های استعلام‌شونده','UTILITY','utility'],
+  8:['بازرسی، حسابرسی و شفافیت','AUDITOR','auditor']
+};
+
+const FLOW = [
+  ['DRAFT','تشکیل پرونده','منطقه / مالک'],
+  ['INQUIRY','استعلامات','دستگاه‌های استعلام‌شونده'],
+  ['DESIGN','کنترل نقشه','نظام مهندسی'],
+  ['APPRAISAL','محاسبه عوارض','مالی / شهرسازی'],
+  ['PAYMENT','تسویه یا تقسیط','مالی'],
+  ['ISSUED','صدور پروانه','مالی / شهرسازی'],
+  ['FOUNDATION','بازدید فونداسیون','ناظر / منطقه'],
+  ['SKELETON','بازدید اسکلت','ناظر / منطقه'],
+  ['FINISHING','بازدید نازک‌کاری','ناظر / منطقه'],
+  ['COMPLETION','پایان‌کار','منطقه / شهرسازی']
+];
+const FLOW_ALT = [
+  ['COMMISSION5','کمیسیون ماده ۵','کمیسیون'],
+  ['COMMISSION100','کمیسیون ماده ۱۰۰','کمیسیون'],
+  ['SUSPENDED','توقف','شهرسازی / بازرسی'],
+  ['REJECTED','رد','کمیسیون / منطقه'],
+  ['EXPIRED','انقضا','شهرسازی / منطقه']
+];
+
+const SHORTCUTS = [
+  ['فهرست مناطق','Regulation','ListRegions','[]'],
+  ['فهرست پهنه‌ها','Regulation','ListZones','[]'],
+  ['سقف انتشار','Regulation','ListQuotas','[]'],
+  ['تعرفه ۱۴۰۵','Regulation','GetTariff','["1405"]'],
+  ['اطلاعات توکن','SqmToken','TokenInfoAll','[]'],
+  ['گزارش ظرفیت','SqmToken','CapacityReport','["1","RES"]'],
+  ['ارزیابی پهنه','Regulation','EvaluateZoning','["R510","RES","300","900","6","4"]']
+];
+
+function fillSelect(el, items, fmt){
+  el.innerHTML = items.map(i => `<option value="${fmt(i).v}">${fmt(i).t}</option>`).join('');
+}
+
+async function api(path, body){
+  const r = await fetch(path, body ? {
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
+  } : undefined);
+  const j = await r.json().catch(()=>({error:'پاسخ سرور قابل خواندن نبود'}));
+  if(!r.ok) throw new Error(j.error || ('خطای '+r.status));
+  return j;
+}
+
+/* ---------- سربرگ ---------- */
+async function loadInfo(){
+  try{
+    const info = await api('/api/network/info');
+    $('#s-net').innerHTML = 'برخط<span class="dot up"></span>';
+    $('#s-org').textContent = (info.organizations||[]).length;
+    $('#s-ch').textContent  = (info.channels||[]).length;
+    $('#s-tls').textContent = info.tlsEnabled ? 'فعال' : 'غیرفعال';
+  }catch(e){
+    $('#s-net').innerHTML = 'در دسترس نیست<span class="dot down"></span>';
+    $('#s-org').textContent = '۸'; $('#s-ch').textContent = '۲'; $('#s-tls').textContent = '—';
+  }
+}
+
+/* ---------- شبکه ظرفیت ---------- */
+function blocks(used, escrow, ceiling, n=20){
+  const f = ceiling>0 ? Math.round(used/ceiling*n) : 0;
+  const p = ceiling>0 ? Math.round(escrow/ceiling*n) : 0;
+  let h='';
+  for(let i=0;i<n;i++) h += `<div class="blk ${i<f?'f':(i<f+p?'p':'')}"></div>`;
+  return h;
+}
+const fa = n => Number(n||0).toLocaleString('fa-IR');
+
+async function loadRegions(){
+  const box = $('#regions');
+  try{
+    const [regions, quotas] = await Promise.all([
+      api('/api/query',{org:1,channel:'permitchannel',chaincode:'Regulation',function:'ListRegions',args:[]}),
+      api('/api/query',{org:1,channel:'permitchannel',chaincode:'Regulation',function:'ListQuotas',args:[]})
+    ]);
+    const R = normalize(regions), Q = normalize(quotas);
+    if(!R.length){ box.innerHTML = '<p class="hint">دفتر خالی است. ابتدا <code>./seed-network.sh</code> را اجرا کنید.</p>'; return; }
+    box.innerHTML = R.map(r=>{
+      const qs = Q.filter(q => String(q.region)===String(r.code));
+      const rows = qs.length ? qs.map(q=>`
+        <div class="use">
+          <div class="lbl"><span>${useFa(q.use)}</span><b>${fa(q.issued)} از ${fa(q.ceiling)} م²</b></div>
+          <div class="blocks">${blocks(q.issued, q.escrowed, q.ceiling)}</div>
+        </div>`).join('') : '<p class="hint" style="margin:0">سقفی تعریف نشده</p>';
+      return `<article class="region"><h3>${r.title||('منطقه '+r.code)}</h3>
+        <p class="sub">${fa(r.areaHectare)} هکتار</p>${rows}</article>`;
+    }).join('');
+  }catch(e){
+    box.innerHTML = `<p class="hint">اتصال به دفتر برقرار نشد: ${e.message}<br>شبکه را بالا بیاورید و صفحه را تازه کنید.</p>`;
+  }
+}
+function normalize(x){
+  if(Array.isArray(x)) return x;
+  if(x && Array.isArray(x.result)) return x.result;
+  if(x && typeof x.result === 'string'){ try{ return JSON.parse(x.result); }catch(_){ return []; } }
+  if(x && Array.isArray(x.payload)) return x.payload;
+  return [];
+}
+const USE_FA={RES:'مسکونی',COM:'تجاری',OFF:'اداری',IND:'صنعتی',MIX:'مختلط',TUR:'گردشگری',EDU:'آموزشی',HLT:'درمانی',SPT:'ورزشی',REL:'مذهبی',GRD:'باغی',AGR:'کشاورزی',GRN:'فضای سبز'};
+const useFa = u => USE_FA[u]||u;
+
+/* ---------- سازمان‌ها و گردش کار ---------- */
+function renderStatic(){
+  $('#orgs').innerHTML = Object.entries(ORG_INFO).map(([n,[t,role,cls]])=>`
+    <div class="org ${cls}"><b>${t}</b><span>نقش ${role} · <code>org${n}MSP</code></span></div>`).join('');
+
+  $('#flow').innerHTML =
+    FLOW.map(([k,t,who])=>`<div class="st"><b>${t}</b><span>${who}</span></div>`).join('') +
+    FLOW_ALT.map(([k,t,who])=>`<div class="st ${k==='REJECTED'||k==='SUSPENDED'?'bad':'term'}"><b>${t}</b><span>${who}</span></div>`).join('');
+
+  fillSelect($('#org'), Object.keys(ORG_INFO), n=>({v:n,t:`${n} — ${ORG_INFO[n][0]}`}));
+  fillSelect($('#cc'), CONTRACTS, c=>({v:c,t:c}));
+
+  $('#shortcuts').innerHTML = SHORTCUTS.map((s,i)=>`<span class="tag" data-i="${i}">${s[0]}</span>`).join('');
+  $('#shortcuts').addEventListener('click', e=>{
+    const i = e.target.dataset.i; if(i===undefined) return;
+    const [,cc,fn,args] = SHORTCUTS[i];
+    $('#cc').value=cc; $('#fn').value=fn; $('#args').value=args; run(false);
+  });
+}
+
+/* ---------- اجرا ---------- */
+async function run(write){
+  $('#err').textContent=''; $('#out').textContent='در حال اجرا…';
+  let args;
+  try{ args = JSON.parse($('#args').value||'[]'); }
+  catch(_){ $('#err').textContent='آرگومان‌ها باید یک آرایه JSON باشند، مثل ["1405"]'; $('#out').textContent='—'; return; }
+  if(!Array.isArray(args)){ $('#err').textContent='آرگومان‌ها باید آرایه باشند، نه شیء.'; $('#out').textContent='—'; return; }
+  try{
+    const res = await api(write?'/api/invoke':'/api/query', {
+      org:Number($('#org').value), channel:$('#ch').value,
+      chaincode:$('#cc').value, function:$('#fn').value.trim(), args:args.map(String)
+    });
+    $('#out').textContent = JSON.stringify(res,null,2);
+    if(write) loadRegions();
+  }catch(e){
+    $('#out').textContent='—';
+    $('#err').textContent = e.message;
+  }
+}
+
+renderStatic();
+loadInfo();
+loadRegions();
+$('#run').onclick  = ()=>run(false);
+$('#runw').onclick = ()=>run(true);
+</script>
+</body>
+</html>

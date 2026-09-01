@@ -1,0 +1,24 @@
+version: '3.8'
+networks:
+  shiraz-network:
+    external: true
+services:
+  root-ca:
+    image: hyperledger/fabric-ca:1.5
+    container_name: root-ca
+    hostname: root-ca
+    ports:
+      - "7052:7052"
+    environment:
+      - FABRIC_CA_SERVER_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_PORT=7052
+      - FABRIC_CA_SERVER_CA_NAME=root-ca
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=root-ca.example.com
+      - FABRIC_CA_SERVER_CSR_HOSTS=root-ca,localhost,127.0.0.1
+    volumes:
+      - ./crypto-config/root-ca:/etc/hyperledger/fabric-ca-server
+    command: sh -c 'fabric-ca-server start -b admin:adminpw --registry.maxenrollments -1'
+    networks:
+      - shiraz-network
+    restart: unless-stopped

@@ -1,0 +1,11 @@
+[
+  {
+    "name": "financeDetail",
+    "policy": "OR('org5MSP.member','org8MSP.member')",
+    "requiredPeerCount": 1,
+    "maxPeerCount": 2,
+    "blockToLive": 0,
+    "memberOnlyRead": true,
+    "memberOnlyWrite": true
+  }
+]

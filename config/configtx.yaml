@@ -1,0 +1,306 @@
+# configtx.yaml — نسخه اصلاح‌شده
+#
+# اصلاح اساسی نسبت به نسخه قبلی:
+#  ۱) سیاست‌های سطح سازمان از ImplicitMeta به Signature تغییر کردند.
+#     ImplicitMeta بر «زیرگروه‌ها» ارزیابی می‌شود و گروه یک سازمان زیرگروهی
+#     ندارد → آستانه صفر → سیاست بدیهی‌الاجابه و برای service discovery
+#     غیرقابل resolve بود (خطای «policy not found» در مسیر Fabric Gateway).
+#  ۲) سیاست Endorsement و LifecycleEndorsement در سطح Application از
+#     MAJORITY به ANY تغییر کرد: امضای هر یک از ۸ سازمان کافی است
+#     (سیاست ساده و سریع، مطابق تصمیم پروژه) و برای discovery قابل حل است.
+#     برای بازگشت به اجماع اکثریت، ANY را به MAJORITY تغییر دهید.
+#
+# توجه: هر تغییر در این فایل مستلزم بازتولید genesis block و آرتیفکت کانال‌ها
+# و در نتیجه راه‌اندازی مجدد شبکه است (./network.sh).
+
+Organizations:
+  - &OrdererOrg
+    Name: OrdererMSP
+    ID: OrdererMSP
+    MSPDir: ./crypto-config/ordererOrganizations/example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OrdererMSP.member')"
+    OrdererEndpoints:
+      - orderer.example.com:7050
+
+  - &Org1
+    Name: org1MSP
+    ID: org1MSP
+    MSPDir: ./crypto-config/peerOrganizations/org1.example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('org1MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org1MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org1MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('org1MSP.member')"
+    AnchorPeers:
+      - Host: peer0.org1.example.com
+        Port: 7051
+
+  - &Org2
+    Name: org2MSP
+    ID: org2MSP
+    MSPDir: ./crypto-config/peerOrganizations/org2.example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('org2MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org2MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org2MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('org2MSP.member')"
+    AnchorPeers:
+      - Host: peer0.org2.example.com
+        Port: 8051
+
+  - &Org3
+    Name: org3MSP
+    ID: org3MSP
+    MSPDir: ./crypto-config/peerOrganizations/org3.example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('org3MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org3MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org3MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('org3MSP.member')"
+    AnchorPeers:
+      - Host: peer0.org3.example.com
+        Port: 9051
+
+  - &Org4
+    Name: org4MSP
+    ID: org4MSP
+    MSPDir: ./crypto-config/peerOrganizations/org4.example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('org4MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org4MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org4MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('org4MSP.member')"
+    AnchorPeers:
+      - Host: peer0.org4.example.com
+        Port: 10051
+
+  - &Org5
+    Name: org5MSP
+    ID: org5MSP
+    MSPDir: ./crypto-config/peerOrganizations/org5.example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('org5MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org5MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org5MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('org5MSP.member')"
+    AnchorPeers:
+      - Host: peer0.org5.example.com
+        Port: 11051
+
+  - &Org6
+    Name: org6MSP
+    ID: org6MSP
+    MSPDir: ./crypto-config/peerOrganizations/org6.example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('org6MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org6MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org6MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('org6MSP.member')"
+    AnchorPeers:
+      - Host: peer0.org6.example.com
+        Port: 12051
+
+  - &Org7
+    Name: org7MSP
+    ID: org7MSP
+    MSPDir: ./crypto-config/peerOrganizations/org7.example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('org7MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org7MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org7MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('org7MSP.member')"
+    AnchorPeers:
+      - Host: peer0.org7.example.com
+        Port: 13051
+
+  - &Org8
+    Name: org8MSP
+    ID: org8MSP
+    MSPDir: ./crypto-config/peerOrganizations/org8.example.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('org8MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org8MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org8MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('org8MSP.member')"
+    AnchorPeers:
+      - Host: peer0.org8.example.com
+        Port: 14051
+
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_0: true
+
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "ANY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "ANY Endorsement"
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+  OrdererType: solo
+  Addresses:
+    - orderer.example.com:7050
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 500
+    AbsoluteMaxBytes: 10 MB
+    PreferredMaxBytes: 2 MB
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+  Capabilities:
+    <<: *OrdererCapabilities
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "ANY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Profiles:
+  OrdererGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+      Capabilities:
+        <<: *OrdererCapabilities
+    Consortiums:
+      SampleConsortium:
+        Organizations:
+          - *Org1
+          - *Org2
+          - *Org3
+          - *Org4
+          - *Org5
+          - *Org6
+          - *Org7
+          - *Org8
+
+  ApplicationChannel:
+    Consortium: SampleConsortium
+    <<: *ChannelDefaults
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Org1
+        - *Org2
+        - *Org3
+        - *Org4
+        - *Org5
+        - *Org6
+        - *Org7
+        - *Org8
+      Capabilities:
+        <<: *ApplicationCapabilities

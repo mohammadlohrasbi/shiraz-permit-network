@@ -25,6 +25,24 @@ free -h
 
 ### گام ۰ — نصب
 
+اگر پروژه را با `git clone` گرفته‌اید، **اول مجوز اجرا را درست کنید**:
+
+```bash
+cd shiraz-permit-network
+bash fix-permissions.sh --git
+```
+
+بیت اجرا خصوصیتی است که Git فقط در صورت ثبت در ایندکس نگه می‌دارد. اگر فایل‌ها یک بار بدون آن commit شده باشند، هر clone تازه ۶۴۴ می‌گیرد. نشانه‌اش دو پیام متفاوت است که هر دو یک علت دارند:
+
+```
+-bash: ./build-chaincode.sh: Permission denied      ← پیام گویا
+sudo: ./install.sh: command not found               ← پیام گمراه‌کننده
+```
+
+دومی به‌خصوص فریبنده است: به نظر می‌رسد فایل نیست، در حالی که `ls` نشانش می‌دهد. `sudo` وقتی فایل قابل اجرا نباشد همین را می‌گوید.
+
+سپس:
+
 ```bash
 sudo ./install.sh
 cd /root/shiraz-permit-network/scripts

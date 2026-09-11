@@ -134,12 +134,17 @@ GRD باغی     AGR کشاورزی  GRN فضای سبز        ← این سه 
 
 ## ۶. راه‌اندازی
 
-جزئیات کامل در [`RUNBOOK.md`](RUNBOOK.md). مسیر کوتاه:
+دستورالعمل کامل از سرور خالی تا شبکه کارکن: [`SETUP.md`](SETUP.md). عیب‌یابی: [`RUNBOOK.md`](RUNBOOK.md).
+
+مسیر کوتاه:
 
 ```bash
-sudo ./install.sh                        # نصب در /root/shiraz-permit-network
-cd /root/shiraz-permit-network/scripts
+git clone https://github.com/mohammadlohrasbi/shiraz-permit-network.git /root/shiraz-permit-network
+cd /root/shiraz-permit-network
+find . -name '*.sh' -not -path './.git/*' -exec chmod +x {} +
 
+cd scripts
+./build-chaincode.sh                     # کامپایل ۱۰ قرارداد — اول این
 NODES=3 ./bootstrap-secure.sh            # شبکه با Raft سه‌نودی و TLS کامل
 ./seed-network.sh                        # مناطق، پهنه‌ها، تعرفه، سقف‌ها
 ```
